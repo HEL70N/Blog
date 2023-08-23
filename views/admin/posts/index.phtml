@@ -4,7 +4,7 @@ require(VIEWS_PATH . 'includes/header.phtml');
 
 <div class="container">
     <div class="col-md-12">
-        <h1>Blog</h1>
+        <h1>Posts - <small>Gerencie suas postagens</small></h1>
         <hr>
     </div>
     <div class="col-md-12">
@@ -12,24 +12,22 @@ require(VIEWS_PATH . 'includes/header.phtml');
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
+                    <th>Titulo</th>
                     <th>Criado em</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($this->expenses as $e) : ?>
+                <?php foreach ($this->posts as $p) : ?>
                     <tr>
-                        <td><?= $e['id']; ?></td>
-                        <td><?= $e['description']; ?></td>
-                        <td><?= number_format($e['value'], 2, ',', '.'); ?></td>
-                        <td><?= date('d/m/Y H:i:s', strtotime($e['created_at'])); ?></td>
+                        <td><?= $p['id']; ?></td>
+                        <td><?= $p['tutle']; ?></td>
+                        <td><?= date('d/m/Y H:i:s', strtotime($p['created_at'])); ?></td>
                         <td>
-                            <a href="<?= HOME; ?>/myexpenses/edit/<?= $e['id']; ?>" class="btn btn-default">
+                            <a href="<?= HOME; ?>/posts/edit/<?= $p['id']; ?>" class="btn btn-default">
                                 Editar
                             </a>
-                            <a href="<?= HOME; ?>/myexpenses/remove/<?= $e['id']; ?>" class="btn btn-danger">
+                            <a href="<?= HOME; ?>/posts/remove/<?= $p['id']; ?>" class="btn btn-danger">
                                 Excluir
                             </a>
                         </td>
