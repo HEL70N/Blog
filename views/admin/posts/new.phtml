@@ -8,30 +8,50 @@ require(VIEWS_PATH . 'includes/header.phtml');
         <hr>
     </div>
     <div class="col-md-12">
-        <form method="POST" action="<?= HOME; ?>/myexpenses/new">
+        <form method="POST" action="<?= HOME; ?>/posts/new">
             <div class="form-group">
-                <label for="exampleInputEmail1">Valor Gasto</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Valor gasto..." name="value">
+                <label for="exampleInputEmail1">Titulo</label>
+                <input type="text" class="form-control" name="title">
             </div>
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Categoria</label>
-                <select name="categories_id">
-                    <?php foreach ($this->categories as $c) : ?>
-                        <option value="<?= $c['id'] ?>"><?= $c['name'] ?></option>
-                    <?php endforeach; ?>
+                <label for="exampleInputEmail1">Descrição</label>
+                <input type="text" class="form-control" name="description">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Conteúdo</label>
+                <textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Slug</label>
+                <input type="text" class="form-control" name="slug">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tipo</label>
+                <select name="type">
+                    <option value="#">Selecione o tipo do conteúdo</option>
+                    <option value="post">Post</option>
+                    <option value="page">Página</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="exampleInputPassword1">Descrição</label>
-                <textarea name="description" id="" cols="30" rows="10" class="form-control"></textarea>
+                <label for="exampleInputEmail1">Tipo</label>
+                <select name="user_id">
+                    <option value="#">Selecione o autor</option>
+                    <?php foreach ($this->users as $u) : ?>
+                        <option value="<?= $u['id']; ?>"><?= $u['first_name'] . ' ' . $u['last_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-            <button type="submit" class="btn btn-success btn-lg pull-right">Salvar Despesa</button>
+
+            <button type="submit" class="btn btn-success btn-lg pull-right">Salvar Post</button>
         </form>
     </div>
 </div>
-
 
 <?php
 require(VIEWS_PATH . 'includes/footer.phtml');
