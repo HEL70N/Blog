@@ -1,6 +1,6 @@
 <?php
 
-namespace Code\Validator;
+namespace Code\Security\Validator;
 
 class Sanitizer
 {

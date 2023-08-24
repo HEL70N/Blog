@@ -13,7 +13,7 @@ require(VIEWS_PATH . 'includes/header.phtml');
         <hr>
     </div>
     <div class="col-md-12">
-        <form method="POST" action="<?= HOME; ?>/users/new">
+        <form method="POST" action="<?= HOME; ?>/users/edit/<?= $this->user['id']; ?>">
             <div class="form-group">
                 <label for="exampleInputEmail1">Nome</label>
                 <input type="text" class="form-control" name="first_name" value="<?= $this->user['first_name']; ?>">

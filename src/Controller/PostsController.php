@@ -6,8 +6,8 @@ use Code\DB\Connection;
 use Code\Entity\Post;
 use Code\Entity\User;
 use Code\Session\Flash;
-use Code\Validator\Sanitizer;
-use Code\Validator\Validator;
+use Code\Security\Validator\Sanitizer;
+use Code\Security\Validator\Validator;
 use Code\View\View;
 
 class PostsController

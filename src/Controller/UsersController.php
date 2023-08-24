@@ -4,9 +4,10 @@ namespace Code\Controller;
 
 use Code\DB\Connection;
 use Code\Entity\User;
+use Code\Security\PasswordHash;
 use Code\Session\Flash;
-use Code\Validator\Sanitizer;
-use Code\Validator\Validator;
+use Code\Security\Validator\Sanitizer;
+use Code\Security\Validator\Validator;
 use Code\View\View;
 
 class UsersController
@@ -31,7 +32,20 @@ class UsersController
                     return header('Location: ' . HOME . '/users/new');
                 }
 
+                if (!Validator::validatePasswordMinStringLenght($data['password'])) {
+                    Flash::add('warning', 'Senha deve conter pelo menos 6 caracters!');
+                    return header('Location: ' . HOME . '/users/new');
+                }
+
+                if (!Validator::validatePasswordConfirm($data['password'], $data['password_confirm'])) {
+                    Flash::add('warning', 'Senhas não conferem!');
+                    return header('Location: ' . HOME . '/users/new');
+                }
+
                 $post = new User(Connection::getInstance());
+
+                $data['password'] = PasswordHash::hash($data['password']);
+                unset($data['password_confirm']);
 
                 if (!$post->insert($data)) {
                     Flash::add('error', 'Erro ao criar Usuário!');
@@ -46,7 +60,6 @@ class UsersController
             $view->users = (new User(Connection::getInstance()))->findAll('id, first_name, last_name');
 
             return $view->render();
-            
         } catch (\Exception $e) {
             if (APP_DEBUG) {
                 Flash::add('error', $e->getMessage());
@@ -65,6 +78,7 @@ class UsersController
                 $data = $_POST;
 
                 $data = Sanitizer::sanitizerData($data, User::$filters);
+
                 $data['id'] = (int) $id;
 
                 if (!Validator::validareRequiredFields($data)) {
@@ -73,6 +87,25 @@ class UsersController
                 }
 
                 $post = new User(Connection::getInstance());
+
+                if ($data['password']) {
+
+                    if (!Validator::validatePasswordMinStringLenght($data['password'])) {
+                        Flash::add('warning', 'Senha deve conter pelo menos 6 caracters!');
+                        return header('Location: ' . HOME . '/users/new');
+                    }
+
+                    if (!Validator::validatePasswordConfirm($data['password'], $data['password_confirm'])) {
+                        Flash::add('warning', 'Senhas não conferem!');
+                        return header('Location: ' . HOME . '/users/new');
+                    }
+
+                    $data['password'] = PasswordHash::hash($data['password']);
+                } else {
+                    unset($data['password']);
+                }
+
+                unset($data['password_confirm']);
 
                 if (!$post->update($data)) {
                     Flash::add('error', 'Erro ao actualizar usuário!');
@@ -87,7 +120,6 @@ class UsersController
             $view->user = (new User(Connection::getInstance()))->find($id);
 
             return $view->render();
-
         } catch (\Exception $e) {
             if (APP_DEBUG) {
                 Flash::add('error', $e->getMessage());
@@ -111,7 +143,6 @@ class UsersController
 
             Flash::add('success', 'Usuário removido com sucesso!');
             return header('Location: ' . HOME . '/users');
-
         } catch (\Exception $e) {
             if (APP_DEBUG) {
                 Flash::add('error', $e->getMessage());
