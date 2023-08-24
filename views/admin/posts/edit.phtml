@@ -3,6 +3,11 @@ require(VIEWS_PATH . 'includes/header.phtml');
 ?>
 
 <div class="container">
+
+    <div class="col-md-12">
+        <?php require VIEWS_PATH . 'includes/messages.phtml'; ?>
+    </div>
+
     <div class="col-md-12">
         <h1>Post - <small>Edição de Postagem</small></h1>
         <hr>
@@ -31,7 +36,7 @@ require(VIEWS_PATH . 'includes/header.phtml');
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Tipo</label>
-                <select name="type">
+                <select name="type" class="form-control">
                     <option value="#">Selecione o tipo do conteúdo</option>
                     <option value="post" <?php if ($this->post['type'] == 'post') : ?> selected <?php endif ?>>Post</option>
                     <option value="page" <?php if ($this->post['type'] == 'page') : ?> selected <?php endif ?>>Página</option>
@@ -39,8 +44,8 @@ require(VIEWS_PATH . 'includes/header.phtml');
             </div>
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Tipo</label>
-                <select name="user_id">
+                <label for="exampleInputEmail1">Autor</label>
+                <select name="user_id" class="form-control">
                     <option value="#">Selecione o autor</option>
                     <?php foreach ($this->users as $u) : ?>
                         <option value="<?= $u['id']; ?>" <?php if ($this->post['user_id'] == $u['id']) : ?> selected <?php endif ?>>

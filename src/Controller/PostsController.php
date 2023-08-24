@@ -7,6 +7,7 @@ use Code\Entity\Post;
 use Code\Entity\User;
 use Code\Session\Flash;
 use Code\Validator\Sanitizer;
+use Code\Validator\Validator;
 use Code\View\View;
 
 class PostsController
@@ -24,8 +25,11 @@ class PostsController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST;
             $data = Sanitizer::sanitizerData($data, Post::$filters);
-            var_dump($data);
-            die;
+
+            if (Validator::validareRequiredFields($data)) {
+                Flash::add('warning', 'Preencha todos os campos!');
+                return header('Location: ' . HOME . '/posts/new');
+            }
 
             $post = new Post(Connection::getInstance());
 
@@ -49,6 +53,13 @@ class PostsController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST;
             $data['id'] = $id;
+
+            $data = Sanitizer::sanitizerData($data, Post::$filters);
+
+            if (Validator::validareRequiredFields($data)) {
+                Flash::add('warning', 'Preencha todos os campos!');
+                return header('Location: ' . HOME . '/posts/edit/' . $id);
+            }
 
             $post = new Post(Connection::getInstance());
 
