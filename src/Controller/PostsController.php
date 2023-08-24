@@ -45,7 +45,7 @@ class PostsController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST;
             $data['id'] = $id;
-            
+
             $post = new Post(Connection::getInstance());
 
             if (!$post->update($data)) {
@@ -62,5 +62,18 @@ class PostsController
         $view->users = (new User(Connection::getInstance()))->findAll('id, first_name, last_name');
 
         return $view->render();
+    }
+
+    public function remove($id = null)
+    {
+        $post = new Post(Connection::getInstance());
+
+        if (!$post->delete($id)) {
+            Flash::add('error', 'Erro ao realizar remoção da postagem!');
+            return header('Location: ' . HOME . '/posts/edit/' . $id);
+        }
+
+        Flash::add('success', 'Postagem removida com sucesso!');
+        return header('Location: ' . HOME . '/posts');
     }
 }
