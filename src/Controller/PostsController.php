@@ -6,6 +6,7 @@ use Code\DB\Connection;
 use Code\Entity\Post;
 use Code\Entity\User;
 use Code\Session\Flash;
+use Code\Validator\Sanitizer;
 use Code\View\View;
 
 class PostsController
@@ -22,6 +23,9 @@ class PostsController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST;
+            $data = Sanitizer::sanitizerData($data, Post::$filters);
+            var_dump($data);
+            die;
 
             $post = new Post(Connection::getInstance());
 
