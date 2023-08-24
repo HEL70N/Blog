@@ -4,38 +4,56 @@ require(VIEWS_PATH . 'includes/header.phtml');
 
 <div class="container">
     <div class="col-md-12">
-        <h1>Editar despesa</h1>
+        <h1>Cadastrar nova despesa</h1>
         <hr>
     </div>
     <div class="col-md-12">
-        <form method="POST" action="<?= HOME; ?>/myexpenses/edit/<?= $this->expense['id']; ?>">
+        <form method="POST" action="<?= HOME; ?>/posts/edit/<?= $this->post['id']; ?>">
             <div class="form-group">
-                <label for="exampleInputEmail1">Valor Gasto</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Valor gasto..." name="value" value="<?= $this->expense['value']; ?>">
+                <label for="exampleInputEmail1">Titulo</label>
+                <input type="text" class="form-control" name="title" value="<?= $this->post['title']; ?>">
             </div>
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Categoria</label>
-                <select name="categories_id">
-                    <?php foreach ($this->categories as $c) : ?>
-                        <option value="<?= $c['id'] ?>
-                        <?php if ($c['id' == $this->expense['categories_id']]) : ?>
-                                selected
-                            <?php endif; ?>
-                        "><?= $c['name'] ?></option>
-                    <?php endforeach; ?>
+                <label for="exampleInputEmail1">Descrição</label>
+                <input type="text" class="form-control" name="description" value="<?= $this->post['description']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Conteúdo</label>
+                <textarea name="content" id="" cols="30" rows="10" class="form-control"><?= $this->post['content']; ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Slug</label>
+                <input type="text" class="form-control" name="slug" value="<?= $this->post['slug']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tipo</label>
+                <select name="type">
+                    <option value="#">Selecione o tipo do conteúdo</option>
+                    <option value="post" <?php if ($this->post['type'] == 'post') : ?> selected <?php endif ?>>Post</option>
+                    <option value="page" <?php if ($this->post['type'] == 'page') : ?> selected <?php endif ?>>Página</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="exampleInputPassword1">Descrição</label>
-                <textarea name="description" id="" cols="30" rows="10" class="form-control"><?= $this->expense['description']; ?></textarea>
+                <label for="exampleInputEmail1">Tipo</label>
+                <select name="user_id">
+                    <option value="#">Selecione o autor</option>
+                    <?php foreach ($this->users as $u) : ?>
+                        <option value="<?= $u['id']; ?>" <?php if ($this->post['user_id'] == $u['id']) : ?> selected <?php endif ?>>
+                            <?= $u['first_name'] . ' ' . $u['last_name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-            <button type="submit" class="btn btn-success btn-lg pull-right">Actualizar Despesa</button>
+
+            <button type="submit" class="btn btn-success btn-lg pull-right">Salvar Post</button>
         </form>
     </div>
 </div>
-
 
 <?php
 require(VIEWS_PATH . 'includes/footer.phtml');
