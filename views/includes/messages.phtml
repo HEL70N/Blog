@@ -10,8 +10,8 @@
     </div>
 <?php endif; ?>
 
-<?php if (\Code\Session\Session::has('danger')) : ?>
+<?php if (\Code\Session\Session::has('error')) : ?>
     <div class="alert alert-danger">
-        <?= \Code\Session\Flash::get('danger'); ?>
+        <?= \Code\Session\Flash::get('error'); ?>
     </div>
 <?php endif; ?>

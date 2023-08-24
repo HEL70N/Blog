@@ -49,6 +49,10 @@ abstract class Entity
         $get = $this->bind($sql, $conditions);
         $get->execute();
 
+        if (!$get->rowCount()) {
+            throw new \Exception("Nada encontrado para esta consulta!");
+        }
+
         return $get->fetchAll(\PDO::FETCH_ASSOC);
     }
 
